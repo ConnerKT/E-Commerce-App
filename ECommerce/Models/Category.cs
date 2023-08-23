@@ -13,7 +13,12 @@ namespace ECommerce.Models
 
 		public string Description { get; set; }
 
-		public Category(string name, string description)
+        public Category()
+        {
+            // Empty constructor for parameterless instantiation
+        }
+
+        public Category(string name, string description)
 		{
 			Name = name;
 			Description = description;

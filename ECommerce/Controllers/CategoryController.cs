@@ -14,7 +14,7 @@ namespace ECommerce.Controllers
     [ApiController]
     [Route("[controller]")]
 
-    public class CategoriesController : Controller
+    public class CategoriesController : ControllerBase
     {
         private readonly DBContext _context;
 
@@ -24,14 +24,14 @@ namespace ECommerce.Controllers
         }
 
         [HttpGet]
-        public async Task<IEnumerable<Category>> GetCategories()
+        public IEnumerable<Category> Get()
         {
             var categories = _context.Categories.ToList();
             return categories;
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreateCategory(string name, string description)
+        public async Task<ActionResult> Post(string name, string description)
         {
             Category category = new Category(name, description);
             _context.Categories.Add(category);
