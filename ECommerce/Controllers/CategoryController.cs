@@ -38,5 +38,21 @@ namespace ECommerce.Controllers
             _context.SaveChanges();
             return Ok();
         }
+
+        [HttpPut]
+        public async Task<ActionResult> Put([FromBody] Models.Category updatedCategory)
+        {   
+            var existingCategory = _context.Categories.Find(updatedCategory.Id);
+            if (updatedCategory.Name != null)
+            {
+              existingCategory.Name = updatedCategory.Name;  
+            }
+            if (updatedCategory != null)
+            {
+              existingCategory.Description = updatedCategory.Description;  
+            }
+            _context.SaveChanges();
+            return Ok();
+        }
      }
 }

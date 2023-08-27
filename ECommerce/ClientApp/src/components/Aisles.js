@@ -2,11 +2,20 @@
 import axios from 'axios';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import CategoryModal from './CategoryModal';
+import ProductModal from './ProductModal';
 
 function Aisles() {
+    
+    // A state for keeping track of all categories
     const [categories, setCategories] = useState([]);
+    //Our state for keeping track of current category
     const [selectedCategory, setSelectedCategory] = useState([]);
+    //Edit modal States
     const [showModal, setShowModal] = useState(false);
+    //Product Modal States
+    const [showProductModal, setShowProductModal] = useState(false);
+    
+
 
     const fetchCategories = async () => {
         try {
@@ -22,14 +31,23 @@ function Aisles() {
     }, []);
 
     const openModal = (category) => {
-        console.log("please",category)
+        // console.log("please",category)
         setSelectedCategory(category);
         setShowModal(true);
-        console.log("Selected Catta",selectedCategory);
+       
       };
       const closeModal = () => {
         setSelectedCategory([]);
         setShowModal(false);
+      };
+    const productModal = (category) => {
+        setSelectedCategory(category);
+        setShowProductModal(true);
+
+    }
+    const closeProductModal = () => {
+        setSelectedCategory([]);
+        setShowProductModal(false);
       };
 
     return (
@@ -41,8 +59,10 @@ function Aisles() {
                 {categories.map(category => (
                     <Row key={category.id} className="aisle-row">
                         <Col xs={6}>
-                            <Button onClick={() => openModal(category)} variant="primary">{category.name}</Button>
+                            <Button onClick={() => productModal(category)} variant="primary">{category.name}</Button>
                             {console.log(category)}
+                            <Button onClick={() => openModal(category)} style = {{ margin: '10px' }}  variant="danger">Manage</Button>
+                            <h1>➖➖➖➖➖➖➖➖➖➖➖➖</h1>
                         </Col>
                     </Row>
                 ))}
@@ -54,6 +74,14 @@ function Aisles() {
                 onHide={closeModal}
 
             />
+            <ProductModal
+                category = {selectedCategory}
+                show = {showProductModal}
+                onHide= {closeProductModal}
+            />
+            <Button>Add a new Category</Button>
+
+            
         </>
        
     );
