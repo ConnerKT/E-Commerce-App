@@ -3,18 +3,41 @@ import { useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
+import axios from 'axios';
 
-function CategoryModal({ category, show, onHide }) {
+function CategoryModal({ category, show, onHide, setCategories, categories }) {
     const [formResults, setFormResults] = useState([]);
 
+    const updatedCategory = {
+      ...category,
+      name: "New Name",
+      description: "New Description"
+    };
 
-  function editButton(){
+  
+    
+    const editButton = async (category) => {
+      try {
+          const response = await axios.put(`https://localhost:7045/Categories/${category.id}, `);
+          var newCategories = categories.map(c => c.id === category.id? response.data : c);
+          setCategories(newCategories);
+          onHide();
+      } catch (error) {
+          console.error("Error fetching categories:", error);
+      }
+  };
+  const deleteButton = async (category) => {
 
-
+    try {
+      // console.log(category,"delete");
+      const response = await axios.delete(`https://localhost:7045/Categories/${category.id}`, updatedCategory);
+      var newCategories = categories.filter(c => c.id!== category.id);
+      setCategories(newCategories);
+      onHide();
+      return response.data;
+  } catch (error) {
+      console.error("Error deleting category:", error);
   }
-  function deleteButton(){
-
-
   }
   return (
     <>
@@ -37,7 +60,7 @@ function CategoryModal({ category, show, onHide }) {
         </Form>
         </Modal.Body>
         <Modal.Footer>
-          <Button variant="secondary" onClick={deleteButton}>
+          <Button variant="secondary" onClick={() => deleteButton(category)}>
             Delete
           </Button>
           <Button variant="primary" onClick={editButton}>

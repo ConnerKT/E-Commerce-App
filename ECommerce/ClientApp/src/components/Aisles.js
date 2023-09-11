@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import CategoryModal from './CategoryModal';
 import ProductModal from './ProductModal';
+import AddModal from './AddModal';
 
 function Aisles() {
     
@@ -14,6 +15,8 @@ function Aisles() {
     const [showModal, setShowModal] = useState(false);
     //Product Modal States
     const [showProductModal, setShowProductModal] = useState(false);
+    // Add Modal States
+    const [showAddModal, setShowAddModal] = useState(false);
     
 
 
@@ -49,6 +52,12 @@ function Aisles() {
         setSelectedCategory([]);
         setShowProductModal(false);
       };
+      const openAddModal = () => {
+        setShowAddModal(true);
+      };
+      const closeAddModal = () => {
+        setShowAddModal(false);
+      };
 
     return (
         <>
@@ -69,6 +78,8 @@ function Aisles() {
             </Container>
             
             <CategoryModal
+                categories = {categories}
+                setCategories = {setCategories}
                 category = {selectedCategory}
                 show={showModal}
                 onHide={closeModal}
@@ -79,7 +90,16 @@ function Aisles() {
                 show = {showProductModal}
                 onHide= {closeProductModal}
             />
-            <Button>Add a new Category</Button>
+            <AddModal
+                setCategories = {setCategories}
+                categories = {categories}
+                category = {selectedCategory}
+                show = {showAddModal}
+                onHide = {closeAddModal}
+            />
+
+            
+            <Button onClick={() => openAddModal()}>Add a new Category</Button>
 
             
         </>

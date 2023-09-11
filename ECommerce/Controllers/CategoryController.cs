@@ -31,28 +31,48 @@ namespace ECommerce.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> Post(string name, string description)
+        public async Task<ActionResult> Post([FromBody] Models.Category newCategory)
         {
-            Category category = new Category(name, description);
-            _context.Categories.Add(category);
-            _context.SaveChanges();
-            return Ok();
+            if (ModelState.IsValid)
+            {
+                _context.Categories.Add(newCategory);
+                await _context.SaveChangesAsync();
+                return CreatedAtAction("Get", new { id = newCategory.Id }, newCategory);
+            }
+            return BadRequest(ModelState);
         }
 
         [HttpPut]
         public async Task<ActionResult> Put([FromBody] Models.Category updatedCategory)
-        {   
+        {
             var existingCategory = _context.Categories.Find(updatedCategory.Id);
             if (updatedCategory.Name != null)
             {
-              existingCategory.Name = updatedCategory.Name;  
+                existingCategory.Name = updatedCategory.Name;
             }
             if (updatedCategory != null)
             {
-              existingCategory.Description = updatedCategory.Description;  
+                existingCategory.Description = updatedCategory.Description;
             }
             _context.SaveChanges();
             return Ok();
         }
-     }
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> Delete(int id)
+        {
+
+            var existingCategory = _context.Categories.Find(id);
+            if (existingCategory == null)
+            {
+                return NotFound();
+            }
+                _context.Categories.Remove(existingCategory);
+                _context.SaveChanges();
+                return Ok();
+            
+        }
+
+
+
+    }
 }

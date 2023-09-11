@@ -13,7 +13,7 @@ function ProductModal({ category, show, onHide }) {
         <Modal.Header closeButton>
           <Modal.Title>{category.name} Products</Modal.Title>
         </Modal.Header>
-        <Modal.Body>Test Test Test</Modal.Body>
+        <Modal.Body>{category.description}</Modal.Body>
         <Modal.Footer>
           <Button>
             PlaceHolder
