@@ -5,22 +5,33 @@ import Modal from 'react-bootstrap/Modal';
 import Form from 'react-bootstrap/Form';
 import axios from 'axios';
 
-function CategoryModal({ category, show, onHide, setCategories, categories }) {
-    const [formResults, setFormResults] = useState([]);
+function CategoryModal({ category, show, onHide, setCategories, categories, fetchCategories }) {
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+
+
+  const handleCategoryNameChange = (event) => {
+      setName(event.target.value);
+    };
+  
+    const handleDescriptionChange = (event) => {
+      setDescription(event.target.value);
+    };
 
     const updatedCategory = {
       ...category,
-      name: "New Name",
-      description: "New Description"
+      name: name,
+      description: description,
     };
 
   
-    
+
     const editButton = async (category) => {
       try {
-          const response = await axios.put(`https://localhost:7045/Categories/${category.id}, `);
-          var newCategories = categories.map(c => c.id === category.id? response.data : c);
-          setCategories(newCategories);
+          const response = await axios.put(`https://localhost:7045/Categories`, updatedCategory);
+          // var newCategories = categories.map(c => c.id === category.id? response.data : c);
+          fetchCategories();
+
           onHide();
       } catch (error) {
           console.error("Error fetching categories:", error);
@@ -51,11 +62,11 @@ function CategoryModal({ category, show, onHide, setCategories, categories }) {
         <Form>
           <Form.Group className="mb-3" controlId="exampleForm.ControlInput1">
             <Form.Label>Category</Form.Label>
-            <Form.Control type="email" placeholder={category.name} />
+            <Form.Control type="email" placeholder={category.name} onChange={handleCategoryNameChange} />
           </Form.Group>
           <Form.Group className="mb-3" controlId="exampleForm.ControlTextarea1">
             <Form.Label>Description</Form.Label>
-            <Form.Control as="textarea" rows={3} placeholder={category.description} />
+            <Form.Control as="textarea" rows={3} placeholder={category.description} onChange={handleDescriptionChange}/>
           </Form.Group>
         </Form>
         </Modal.Body>

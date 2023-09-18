@@ -23,6 +23,7 @@ function Aisles() {
     const fetchCategories = async () => {
         try {
             const response = await axios.get("https://localhost:7045/Categories");
+            console.log(response.data, "Howdy");
             setCategories(response.data);
         } catch (error) {
             console.error("Error fetching categories:", error);
@@ -63,9 +64,10 @@ function Aisles() {
         <>
             <Container>
                 <Row className="aisle-row">
-                
+                    
                 </Row>
                 {categories.map(category => (
+                    
                     <Row key={category.id} className="aisle-row">
                         <Col xs={6}>
                             <Button onClick={() => productModal(category)} variant="primary">{category.name}</Button>
@@ -83,14 +85,19 @@ function Aisles() {
                 category = {selectedCategory}
                 show={showModal}
                 onHide={closeModal}
+                fetchCategories = {fetchCategories}
 
             />
             <ProductModal
+                fetchCategories={fetchCategories}
+                setCategories = {setCategories}
+                categories = {categories}
                 category = {selectedCategory}
                 show = {showProductModal}
                 onHide= {closeProductModal}
             />
             <AddModal
+                fetchCategories={fetchCategories}
                 setCategories = {setCategories}
                 categories = {categories}
                 category = {selectedCategory}

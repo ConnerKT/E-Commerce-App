@@ -26,7 +26,7 @@ namespace ECommerce.Controllers
         [HttpGet]
         public IEnumerable<Category> Get()
         {
-            var categories = _context.Categories.ToList();
+            var categories = _context.Categories.Include(category => category.Products).ToList();
             return categories;
         }
 
