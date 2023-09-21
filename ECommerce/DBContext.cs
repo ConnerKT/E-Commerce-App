@@ -1,19 +1,24 @@
 ﻿using System;
 using ECommerce.Models;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.ApiAuthorization.IdentityServer;
+using Microsoft.Extensions.Options;
+using Duende.IdentityServer.EntityFramework.Options;
 
 namespace ECommerce
 {
-    public class DBContext : DbContext
+    public class DBContext : ApiAuthorizationDbContext<IdentityUser>
     {
         public DbSet<Category> Categories { get; set; }
         public DbSet<Product> Products { get; set; }
 
-        public DBContext(DbContextOptions options) : base(options)
+        public DBContext(DbContextOptions options, IOptions<OperationalStoreOptions> operationalStoreOptions) : base(options, operationalStoreOptions)
         { }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             // Seed mock data
             modelBuilder.Entity<Category>().HasData(
                 new Category { Id = 1, Name = "Electronics", Description = "Electronic gadgets" },

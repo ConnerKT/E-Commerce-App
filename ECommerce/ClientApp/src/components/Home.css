@@ -1,0 +1,25 @@
+.landing-page {
+    text-align: center;
+    padding: 100px;
+    background-color: #f0f0f0;
+  }
+  
+  .landing-page h1 {
+    font-size: 3rem;
+    margin-bottom: 20px;
+  }
+  
+  .landing-page p {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+  }
+  
+  .landing-page .MuiButton-root {
+    font-size: 1.25rem;
+  }
+  
+  .landing-page .MuiButton-contained {
+    padding: 15px 30px;
+    margin-top: 20px;
+  }
+  
